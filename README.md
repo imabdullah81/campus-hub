@@ -1,2 +1,1 @@
-# Lets-Chat
-A chat Application
+# campus-hub
