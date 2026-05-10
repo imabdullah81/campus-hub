@@ -42,7 +42,8 @@ exports.register = async (req, res, next) => {
 
     sendTokenResponse(res, 201, user);
   } catch (error) {
-    next(error);
+    if (typeof next === "function") next(error);
+    else res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -73,7 +74,8 @@ exports.login = async (req, res, next) => {
 
     sendTokenResponse(res, 200, user);
   } catch (error) {
-    next(error);
+    if (typeof next === "function") next(error);
+    else res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -122,7 +124,8 @@ exports.googleAuth = async (req, res, next) => {
 
     sendTokenResponse(res, 200, user);
   } catch (error) {
-    next(error);
+    if (typeof next === "function") next(error);
+    else res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -142,7 +145,8 @@ exports.getMe = async (req, res, next) => {
     }
     res.status(200).json({ success: true, user });
   } catch (error) {
-    next(error);
+    if (typeof next === "function") next(error);
+    else res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -188,7 +192,8 @@ exports.forgotPassword = async (req, res, next) => {
       message: "If an account with that email exists, a reset link has been sent.",
     });
   } catch (error) {
-    next(error);
+    if (typeof next === "function") next(error);
+    else res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -224,6 +229,7 @@ exports.resetPassword = async (req, res, next) => {
 
     sendTokenResponse(res, 200, user);
   } catch (error) {
-    next(error);
+    if (typeof next === "function") next(error);
+    else res.status(500).json({ success: false, message: error.message });
   }
 };

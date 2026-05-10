@@ -81,15 +81,11 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// ─── Indexes ─────────────────────────────────────────────────────────────────
-userSchema.index({ email: 1 });
-
 // ─── Pre-save: Hash password ──────────────────────────────────────────────────
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   // Only hash if password was modified
-  if (!this.isModified("password") || !this.password) return next();
+  if (!this.isModified("password") || !this.password) return;
   this.password = await bcrypt.hash(this.password, 12);
-  next();
 });
 
 // ─── Instance method: Compare password ───────────────────────────────────────
