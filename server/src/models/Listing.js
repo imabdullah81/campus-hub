@@ -39,7 +39,12 @@ const listingSchema = new mongoose.Schema(
             enum: ["New", "Like New", "Used"]
         },
 
-        images: [String],
+        images: [
+            {
+                url: { type: String, required: true },
+                public_id: { type: String, required: true }
+            }
+        ],
 
         location: {
             type: String

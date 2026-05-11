@@ -45,7 +45,7 @@ exports.protect = async (req, res, next) => {
     }
 
     // Attach minimal user info to request
-    req.user = { id: user._id, role: user.role };
+    req.user = { id: user._id.toString(), role: user.role };
     next();
   } catch (error) {
     next(error);
