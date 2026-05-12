@@ -8,13 +8,15 @@ import {
   Upload, 
   X, 
   Info, 
-  Image as ImageIcon,
   DollarSign,
   MapPin,
   CheckCircle2,
   AlertCircle
 } from "lucide-react";
 import Link from "next/link";
+import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { DashboardCard } from "@/components/dashboard/DashboardCard";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 
 export default function SellPage() {
   const router = useRouter();
@@ -96,475 +98,189 @@ export default function SellPage() {
   };
 
   return (
-    <div className="sell-view animate-fade-in">
+    <div className="flex flex-col gap-10 animate-fade-in pb-12 max-w-[1100px] mx-auto">
       {/* ── Navigation Header ── */}
-      <div className="nav-header">
-        <Link href="/marketplace" className="back-link glass-panel">
-          <ArrowLeft size={18} />
+      <div className="flex">
+        <Link href="/marketplace" className="group flex items-center gap-2.5 px-6 py-2.5 rounded-full no-underline text-on-surface-muted text-[13px] font-bold transition-all glass-panel hover:text-primary hover:bg-primary/5 hover:border-primary/40">
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           <span>Back to Marketplace</span>
         </Link>
       </div>
 
-      <div className="page-intro">
-        <h1 className="text-4xl font-bold mb-3">Post a New Listing</h1>
-        <p className="text-muted">Turn your unused items into cash. Reach thousands of students on campus.</p>
-      </div>
+      <DashboardHeader 
+        title="Post a New" 
+        gradientTitle="Listing"
+        subtitle="Turn your unused items into cash. Reach thousands of students on campus."
+      />
 
-      <form onSubmit={handleSubmit} className="premium-form glass-panel">
-        <div className="form-layout">
-          {/* Left: Content */}
-          <div className="main-fields">
-            <div className="field-group">
-              <label>What are you selling?</label>
-              <div className="input-box glass-panel">
-                <input 
-                  type="text" 
-                  required 
-                  placeholder="e.g. Mechanical Engineering Textbooks"
-                  value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
-                />
-              </div>
-            </div>
-
-            <div className="field-group">
-              <label>Description</label>
-              <div className="textarea-box glass-panel">
-                <textarea 
-                  required 
-                  placeholder="Tell buyers about the condition, age, and features..."
-                  rows={6}
-                  value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                />
-              </div>
-            </div>
-
-            <div className="grid-2">
-              <div className="field-group">
-                <label>Category</label>
-                <select 
-                  className="glass-select"
-                  value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
-                >
-                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <div className="field-group">
-                <label>Condition</label>
-                <select 
-                  className="glass-select"
-                  value={formData.condition}
-                  onChange={(e) => setFormData({...formData, condition: e.target.value})}
-                >
-                  {conditions.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-            </div>
-
-            <div className="grid-2">
-              <div className="field-group">
-                <label>Price</label>
-                <div className="input-box glass-panel icon-left">
-                  <DollarSign size={16} className="icon" />
-                  <input 
-                    type="number" 
-                    required 
-                    placeholder="0.00"
-                    value={formData.price}
-                    onChange={(e) => setFormData({...formData, price: e.target.value})}
-                  />
-                </div>
-              </div>
-              <div className="field-group">
-                <label>Pickup Location</label>
-                <div className="input-box glass-panel icon-left">
-                  <MapPin size={16} className="icon" />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+        <DashboardCard className="p-8 md:p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-12">
+            {/* Left: Content */}
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-3">
+                <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">What are you selling?</label>
+                <div className="bg-white/5 border border-outline-variant rounded-md focus-within:border-primary/50 transition-all">
                   <input 
                     type="text" 
-                    placeholder="e.g. Hall 3 Lounge"
-                    value={formData.location}
-                    onChange={(e) => setFormData({...formData, location: e.target.value})}
+                    required 
+                    placeholder="e.g. Mechanical Engineering Textbooks"
+                    className="w-full p-4 bg-transparent border-none outline-none text-white text-base placeholder:text-on-surface-muted/30"
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
                   />
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Right: Media */}
-          <div className="media-fields">
-            <div className="field-group">
-              <label>Item Media</label>
-              <div className="upload-container">
-                <div className="drop-zone glass-panel">
-                  <input 
-                    type="file" 
-                    multiple 
-                    accept="image/*" 
-                    onChange={handleImageUpload}
-                    disabled={loading}
+              <div className="flex flex-col gap-3">
+                <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Description</label>
+                <div className="bg-white/5 border border-outline-variant rounded-md focus-within:border-primary/50 transition-all">
+                  <textarea 
+                    required 
+                    placeholder="Tell buyers about the condition, age, and features..."
+                    rows={6}
+                    className="w-full p-4 bg-transparent border-none outline-none text-white text-base resize-none placeholder:text-on-surface-muted/30"
+                    value={formData.description}
+                    onChange={(e) => setFormData({...formData, description: e.target.value})}
                   />
-                  <div className="zone-content">
-                    <div className="icon-circle">
-                      <Upload size={24} />
-                    </div>
-                    <p className="primary-text">Click to upload images</p>
-                    <p className="secondary-text">JPG, PNG up to 5MB</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-3">
+                  <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Category</label>
+                  <select 
+                    className="h-14 bg-surface-bright/50 border border-outline-variant rounded-md px-4 text-white text-base outline-none appearance-none cursor-pointer focus:border-primary/50 transition-all"
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                  >
+                    {categories.map(c => <option key={c} value={c} className="bg-surface">{c}</option>)}
+                  </select>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Condition</label>
+                  <select 
+                    className="h-14 bg-surface-bright/50 border border-outline-variant rounded-md px-4 text-white text-base outline-none appearance-none cursor-pointer focus:border-primary/50 transition-all"
+                    value={formData.condition}
+                    onChange={(e) => setFormData({...formData, condition: e.target.value})}
+                  >
+                    {conditions.map(c => <option key={c} value={c} className="bg-surface">{c}</option>)}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-3">
+                  <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Price</label>
+                  <div className="flex items-center gap-3 bg-white/5 border border-outline-variant rounded-md px-4 focus-within:border-primary/50 transition-all">
+                    <DollarSign size={18} className="text-on-surface-muted" />
+                    <input 
+                      type="number" 
+                      required 
+                      placeholder="0.00"
+                      className="w-full py-4 bg-transparent border-none outline-none text-white text-base placeholder:text-on-surface-muted/30"
+                      value={formData.price}
+                      onChange={(e) => setFormData({...formData, price: e.target.value})}
+                    />
                   </div>
                 </div>
+                <div className="flex flex-col gap-3">
+                  <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Pickup Location</label>
+                  <div className="flex items-center gap-3 bg-white/5 border border-outline-variant rounded-md px-4 focus-within:border-primary/50 transition-all">
+                    <MapPin size={18} className="text-on-surface-muted" />
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Hall 3 Lounge"
+                      className="w-full py-4 bg-transparent border-none outline-none text-white text-base placeholder:text-on-surface-muted/30"
+                      value={formData.location}
+                      onChange={(e) => setFormData({...formData, location: e.target.value})}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                <div className="preview-grid">
-                  {images.map((img, i) => (
-                    <div key={i} className="preview-card glass-panel">
-                      <img src={img.url} alt="Preview" />
-                      <button 
-                        type="button" 
-                        className="remove-btn"
-                        onClick={() => setImages(images.filter((_, idx) => idx !== i))}
-                      >
-                        <X size={14} />
-                      </button>
+            {/* Right: Media */}
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-3">
+                <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Item Media</label>
+                <div className="flex flex-col gap-4">
+                  <div className="relative group min-h-[200px] border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center gap-4 transition-all hover:border-primary hover:bg-primary/5">
+                    <input 
+                      type="file" 
+                      multiple 
+                      accept="image/*" 
+                      className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                      onChange={handleImageUpload}
+                      disabled={loading}
+                    />
+                    <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <Upload size={24} />
                     </div>
-                  ))}
-                  {loading && (
-                    <div className="preview-card glass-panel loading">
-                      <div className="mini-spinner" />
+                    <div className="text-center">
+                      <p className="font-bold text-white mb-1">Click to upload images</p>
+                      <p className="text-xs text-on-surface-muted">JPG, PNG up to 5MB</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                    {images.map((img, i) => (
+                      <div key={i} className="aspect-square rounded-md overflow-hidden relative group border border-outline-variant">
+                        <img src={img.url} alt="Preview" className="w-full h-full object-cover" />
+                        <button 
+                          type="button" 
+                          className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity border border-white/10"
+                          onClick={() => setImages(images.filter((_, idx) => idx !== i))}
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    ))}
+                    {loading && (
+                      <div className="aspect-square rounded-md bg-white/5 border border-outline-variant flex items-center justify-center">
+                        <div className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                      </div>
+                    )}
+                  </div>
+
+                  {images.length === 0 && !loading && (
+                    <div className="flex items-center gap-3 p-4 rounded-md bg-primary/5 text-primary text-[12px] font-bold border border-primary/10">
+                      <Info size={14} className="shrink-0" />
+                      <span>Upload at least one clear photo of your item.</span>
                     </div>
                   )}
                 </div>
-
-                {images.length === 0 && !loading && (
-                  <div className="empty-media-tip">
-                    <Info size={14} />
-                    <span>Upload at least one clear photo of your item.</span>
-                  </div>
-                )}
               </div>
-            </div>
 
-            <div className="guarantee-box glass-panel">
-              <div className="icon-wrap">
-                <CheckCircle2 size={24} className="text-primary" />
-              </div>
-              <div>
-                <p className="tip-title">Campus Verified</p>
-                <p className="tip-text">Your listing will only be visible to verified students.</p>
+              <div className="mt-auto p-6 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 flex gap-4 items-center">
+                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-primary shrink-0">
+                  <CheckCircle2 size={24} />
+                </div>
+                <div>
+                  <p className="font-extrabold text-white text-sm">Campus Verified</p>
+                  <p className="text-xs text-on-surface-muted leading-relaxed">Your listing will only be visible to verified students.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {error && (
-          <div className="error-banner glass-panel">
-            <AlertCircle size={18} />
-            <span>{error}</span>
+          {error && (
+            <div className="mt-8 p-4 rounded-md bg-error/10 border border-error/20 text-error flex items-center gap-3 text-sm font-bold animate-fade-in">
+              <AlertCircle size={18} />
+              <span>{error}</span>
+            </div>
+          )}
+
+          <div className="mt-12 pt-8 border-t border-outline-variant flex justify-end gap-4">
+            <DashboardButton type="button" variant="ghost" onClick={() => router.back()}>
+              Cancel
+            </DashboardButton>
+            <DashboardButton type="submit" variant="gradient" isLoading={loading} className="px-10">
+              Publish Listing
+            </DashboardButton>
           </div>
-        )}
-
-        <div className="form-footer">
-          <button 
-            type="button" 
-            onClick={() => router.back()} 
-            className="btn-cancel"
-          >
-            Cancel
-          </button>
-          <button 
-            type="submit" 
-            disabled={loading} 
-            className="btn-submit gradient-btn"
-          >
-            {loading ? "Processing..." : "Publish Listing"}
-          </button>
-        </div>
+        </DashboardCard>
       </form>
-
-      <style jsx>{`
-        .sell-view {
-          max-width: 1100px;
-          margin: 0 auto;
-          display: flex;
-          flex-direction: column;
-          gap: 32px;
-        }
-
-        .nav-header {
-          display: flex;
-        }
-
-        .back-link {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 10px 18px;
-          border-radius: var(--radius-full);
-          text-decoration: none;
-          color: var(--on-surface-muted);
-          font-size: 14px;
-          font-weight: 600;
-          transition: all 0.2s;
-        }
-
-        .back-link:hover {
-          color: var(--primary);
-          background: rgba(59, 130, 246, 0.05);
-          border-color: var(--primary-glow);
-        }
-
-        .text-muted { color: var(--on-surface-muted); }
-
-        .premium-form {
-          border-radius: var(--radius-xl);
-          padding: 48px;
-          background: rgba(22, 29, 47, 0.6);
-        }
-
-        .form-layout {
-          display: grid;
-          grid-template-columns: 1.6fr 1fr;
-          gap: 48px;
-        }
-
-        .main-fields {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-        }
-
-        .field-group {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .field-group label {
-          font-size: 14px;
-          font-weight: 700;
-          color: var(--on-surface);
-          margin-left: 4px;
-        }
-
-        .input-box, .textarea-box {
-          background: rgba(255, 255, 255, 0.02);
-          border-radius: var(--radius-md);
-          padding: 4px;
-          transition: all 0.2s;
-        }
-
-        .input-box:focus-within, .textarea-box:focus-within {
-          border-color: var(--primary);
-          background: rgba(255, 255, 255, 0.05);
-          box-shadow: 0 0 0 4px var(--primary-glow);
-        }
-
-        .input-box input, .textarea-box textarea {
-          width: 100%;
-          padding: 12px 14px;
-          background: none;
-          border: none;
-          outline: none;
-          color: white;
-          font-size: 15px;
-        }
-
-        .icon-left {
-          display: flex;
-          align-items: center;
-          padding-left: 16px;
-        }
-
-        .icon-left .icon { color: var(--on-surface-muted); }
-
-        .grid-2 {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-        }
-
-        .glass-select {
-          height: 52px;
-          background: rgba(22, 29, 47, 0.8);
-          border: 1px solid var(--outline-variant);
-          border-radius: var(--radius-md);
-          padding: 0 16px;
-          color: white;
-          font-size: 15px;
-          outline: none;
-        }
-
-        .media-fields {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-        }
-
-        .upload-container {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-
-        .drop-zone {
-          height: 180px;
-          border: 2px dashed var(--outline-variant);
-          border-radius: var(--radius-lg);
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s;
-        }
-
-        .drop-zone:hover {
-          border-color: var(--primary);
-          background: rgba(59, 130, 246, 0.05);
-        }
-
-        .drop-zone input {
-          position: absolute;
-          inset: 0;
-          opacity: 0;
-          cursor: pointer;
-        }
-
-        .zone-content { text-align: center; }
-
-        .icon-circle {
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          background: var(--surface-container-high);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 16px;
-          color: var(--primary);
-        }
-
-        .primary-text { font-weight: 700; color: white; margin-bottom: 4px; }
-        .secondary-text { font-size: 12px; color: var(--on-surface-muted); }
-
-        .preview-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-          gap: 12px;
-        }
-
-        .preview-card {
-          aspect-ratio: 1;
-          border-radius: var(--radius-md);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .preview-card img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .remove-btn {
-          position: absolute;
-          top: 4px;
-          right: 4px;
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.7);
-          color: white;
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-        }
-
-        .loading {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--surface-container-low);
-        }
-
-        .mini-spinner {
-          width: 20px;
-          height: 20px;
-          border: 2px solid var(--outline-subtle);
-          border-top-color: var(--primary);
-          border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .empty-media-tip {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 12px;
-          color: var(--on-surface-muted);
-          background: rgba(59, 130, 246, 0.05);
-          padding: 10px;
-          border-radius: var(--radius-sm);
-        }
-
-        .guarantee-box {
-          margin-top: auto;
-          padding: 20px;
-          border-radius: var(--radius-lg);
-          display: flex;
-          gap: 16px;
-          align-items: center;
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-        }
-
-        .tip-title { font-weight: 800; font-size: 15px; color: white; }
-        .tip-text { font-size: 13px; color: var(--on-surface-muted); }
-
-        .error-banner {
-          margin-top: 32px;
-          padding: 16px;
-          border-radius: var(--radius-md);
-          background: rgba(255, 180, 171, 0.1);
-          border-color: rgba(255, 180, 171, 0.2);
-          color: var(--error);
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-size: 14px;
-        }
-
-        .form-footer {
-          margin-top: 48px;
-          display: flex;
-          justify-content: flex-end;
-          gap: 20px;
-          padding-top: 32px;
-          border-top: 1px solid var(--outline-subtle);
-        }
-
-        .btn-cancel {
-          padding: 14px 28px;
-          background: none;
-          border: none;
-          color: var(--on-surface-muted);
-          font-weight: 700;
-          cursor: pointer;
-        }
-
-        .btn-submit {
-          padding: 14px 40px;
-          border-radius: var(--radius-full);
-          font-weight: 800;
-          font-size: 15px;
-        }
-
-        @media (max-width: 900px) {
-          .form-layout { grid-template-columns: 1fr; }
-          .premium-form { padding: 24px; }
-        }
-      `}</style>
     </div>
   );
 }

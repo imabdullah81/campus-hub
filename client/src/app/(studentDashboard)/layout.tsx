@@ -22,6 +22,8 @@ import {
   Bell
 } from "lucide-react";
 
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
+
 export default function StudentDashboardLayout({
   children,
 }: {
@@ -52,52 +54,56 @@ export default function StudentDashboardLayout({
       <div className="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[120px] opacity-5 pointer-events-none -z-10 bg-secondary" />
 
       {/* ── Top Navigation ── */}
-      <header className="sticky top-0 z-1000 h-[72px] border-b border-outline-variant px-6 lg:px-10 flex items-center bg-surface/80 backdrop-blur-2xl glass-panel">
+      <header className="sticky top-0 z-[1000] h-[72px] border-b border-outline-variant px-4 lg:px-10 flex items-center bg-surface/80 backdrop-blur-2xl glass-panel">
         <div className="w-full max-w-[1600px] mx-auto flex justify-between items-center gap-4 lg:gap-10">
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3 md:gap-5">
             <button 
-              className="lg:hidden w-11 h-11 rounded-md flex items-center justify-center cursor-pointer text-on-surface bg-white/5 border border-outline-subtle glass-panel"
+              className="lg:hidden w-10 h-10 rounded-md flex items-center justify-center cursor-pointer text-on-surface bg-white/5 border border-outline-subtle glass-panel"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               aria-label="Toggle Menu"
             >
               {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
             
-            <Link href="/dashboard" className="flex items-center gap-2 no-underline group">
-              <div className="text-[24px] md:text-[28px] group-hover:scale-110 transition-transform">🎓</div>
-              <span className="text-[18px] md:text-[22px] font-extrabold tracking-tight gradient-text">CampusHub</span>
+            <Link href="/dashboard" className="flex items-center gap-3 no-underline group">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl overflow-hidden glass-panel flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform shadow-lg border border-white/10">
+                <img src="/logo.png" alt="CampusHub" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-[18px] md:text-[24px] font-black tracking-tighter gradient-text block">CampusHub</span>
             </Link>
           </div>
 
-          <div className="hidden lg:flex flex-1 max-w-[500px] h-11 rounded-full px-4 items-center gap-3 bg-white/5 border border-outline-subtle glass-panel focus-within:border-primary/50 transition-all">
-            <Search className="text-on-surface-muted" size={18} />
+          <div className="hidden xl:flex flex-1 max-w-[400px] h-10 rounded-full px-4 items-center gap-3 bg-white/5 border border-outline-subtle glass-panel focus-within:border-primary/50 transition-all">
+            <Search className="text-on-surface-muted" size={16} />
             <input 
               type="text" 
               placeholder="Search items, services..." 
-              className="bg-transparent border-none text-white w-full outline-none text-sm placeholder:text-on-surface-muted/50" 
+              className="bg-transparent border-none text-white w-full outline-none text-xs placeholder:text-on-surface-muted/50" 
             />
           </div>
           
           <div className="flex items-center gap-2 md:gap-4">
-            <Link href="/marketplace/sell" className="flex items-center gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-sm font-bold no-underline gradient-btn whitespace-nowrap shadow-lg shadow-primary/20">
-              <Plus size={18} />
-              <span className="hidden sm:inline">Sell Item</span>
+            <Link href="/marketplace/sell">
+              <DashboardButton variant="gradient" size="sm" icon={Plus} className="px-3 md:px-5">
+                <span className="hidden sm:inline">Sell Item</span>
+              </DashboardButton>
             </Link>
             
-            <button className="w-10 h-10 md:w-11 md:h-11 rounded-full flex items-center justify-center text-on-surface-variant cursor-pointer transition-all shrink-0 relative glass-panel hover:bg-white/10">
-              <Bell size={20} />
-              <div className="absolute top-2.5 md:top-3 right-2.5 md:right-3 w-2 h-2 bg-primary rounded-full border-2 border-surface" />
+            <button className="w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center text-on-surface-variant cursor-pointer transition-all shrink-0 relative glass-panel hover:bg-white/10">
+              <Bell size={18} className="md:hidden" />
+              <Bell size={20} className="hidden md:block" />
+              <div className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-primary rounded-full border border-surface md:w-2 md:h-2 md:top-3 md:right-3" />
             </button>
 
-            <div className="flex items-center gap-4 pl-4 lg:pl-5 border-l border-outline-subtle">
+            <div className="flex items-center gap-3 md:gap-4 pl-2 md:pl-5 border-l border-outline-subtle">
               <div className="hidden lg:flex flex-col items-end">
                 <span className="text-sm font-bold text-white leading-tight">{user?.fullName || "Student"}</span>
-                <button onClick={logout} className="flex items-center gap-1 bg-none border-none text-on-surface-muted text-[12px] cursor-pointer transition-colors hover:text-error">
-                  <LogOut size={12} />
+                <button onClick={logout} className="flex items-center gap-1 bg-none border-none text-on-surface-muted text-[11px] cursor-pointer transition-colors hover:text-error">
+                  <LogOut size={10} />
                   <span>Logout</span>
                 </button>
               </div>
-              <div className="w-11 h-11 rounded-md gradient-brand flex items-center justify-center font-extrabold text-white text-lg shrink-0 shadow-lg shadow-primary/20 glass-panel">
+              <div className="w-9 h-9 md:w-11 md:h-11 rounded-md gradient-brand flex items-center justify-center font-extrabold text-white text-base md:text-lg shrink-0 shadow-lg shadow-primary/20 glass-panel">
                 {user?.fullName?.charAt(0) || "S"}
               </div>
             </div>
