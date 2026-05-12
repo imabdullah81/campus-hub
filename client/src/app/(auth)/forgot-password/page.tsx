@@ -47,37 +47,23 @@ export default function ForgotPasswordPage() {
         title="Check your inbox"
         subtitle="A password reset link has been sent."
       >
-        <div className="success-state">
-          <div className="success-icon" aria-hidden="true">📬</div>
+        <div className="flex flex-col gap-6 text-center animate-fade-in">
+          <div className="text-[48px]" aria-hidden="true">📬</div>
           <AlertBanner type="success" message={serverMessage} />
-          <p className="success-note">
+          <p className="text-[14px] text-on-surface-variant leading-relaxed font-medium">
             Didn&apos;t receive it? Check your spam folder or{" "}
             <button
-              className="resend-btn"
+              className="text-primary font-bold hover:underline"
               onClick={() => { setIsSuccess(false); setServerMessage(""); }}
             >
               try again
             </button>
             .
           </p>
-          <Link href="/login" className="back-link">← Back to Sign In</Link>
+          <Link href="/login" className="inline-block text-[14px] text-on-surface-variant font-medium hover:text-primary transition-colors">
+            ← Back to Sign In
+          </Link>
         </div>
-
-        <style jsx>{`
-          .success-state { display: flex; flex-direction: column; gap: 20px; }
-          .success-icon { font-size: 40px; text-align: center; }
-          .success-note { font-size: 14px; color: var(--on-surface-variant); text-align: center; }
-          .resend-btn {
-            background: none; border: none; color: var(--primary-accent);
-            font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--font-sans); padding: 0;
-          }
-          .resend-btn:hover { text-decoration: underline; }
-          .back-link {
-            display: block; text-align: center; font-size: 14px;
-            color: var(--on-surface-variant); text-decoration: none; font-weight: 500;
-          }
-          .back-link:hover { color: var(--primary-accent); }
-        `}</style>
       </AuthLayout>
     );
   }
@@ -87,7 +73,7 @@ export default function ForgotPasswordPage() {
       title="Forgot your password?"
       subtitle="Enter your email and we'll send you a secure reset link."
     >
-      <form onSubmit={handleSubmit} noValidate className="auth-form">
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6 animate-fade-in">
         {serverMessage && !isSuccess && (
           <AlertBanner type="error" message={serverMessage} />
         )}
@@ -107,19 +93,10 @@ export default function ForgotPasswordPage() {
           Send Reset Link
         </PrimaryButton>
 
-        <Link href="/login" className="back-link">
+        <Link href="/login" className="text-center text-[14px] text-on-surface-variant font-medium hover:text-primary transition-colors">
           ← Back to Sign In
         </Link>
       </form>
-
-      <style jsx>{`
-        .auth-form { display: flex; flex-direction: column; gap: 20px; }
-        .back-link {
-          display: block; text-align: center; font-size: 14px;
-          color: var(--on-surface-variant); text-decoration: none; font-weight: 500;
-        }
-        .back-link:hover { color: var(--primary-accent); }
-      `}</style>
     </AuthLayout>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import type { Metadata } from "next";
 import Link from "next/link";
 import { useState } from "react";
 import { AuthLayout } from "@/components/auth/AuthLayout";
@@ -63,7 +62,7 @@ export default function LoginPage() {
 
   return (
     <AuthLayout title="Welcome Back" subtitle="Sign in to your account to continue.">
-      <form onSubmit={handleSubmit} noValidate className="auth-form">
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
         {serverError && <AlertBanner type="error" message={serverError} />}
 
         <InputField
@@ -77,7 +76,7 @@ export default function LoginPage() {
           error={errors.email}
         />
 
-        <div className="password-field-wrap">
+        <div className="relative">
           <InputField
             id="login-password"
             label="Password"
@@ -90,7 +89,7 @@ export default function LoginPage() {
           />
           <button
             type="button"
-            className="show-pw-btn"
+            className="absolute right-4 top-[38px] text-[12px] font-extrabold text-primary hover:text-primary/80 transition-colors uppercase tracking-wider"
             onClick={() => setShowPassword((v) => !v)}
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
@@ -98,8 +97,8 @@ export default function LoginPage() {
           </button>
         </div>
 
-        <div className="form-meta">
-          <Link href="/forgot-password" className="forgot-link">
+        <div className="flex justify-end -mt-2">
+          <Link href="/forgot-password" className="text-[13px] font-bold text-primary hover:underline">
             Forgot password?
           </Link>
         </div>
@@ -112,51 +111,13 @@ export default function LoginPage() {
 
         <GoogleLoginButton onCredential={handleGoogle} />
 
-        <p className="auth-switch">
+        <p className="text-center text-[14px] text-on-surface-variant font-medium mt-2">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="auth-link">
+          <Link href="/signup" className="text-primary font-bold hover:underline">
             Sign up for free
           </Link>
         </p>
       </form>
-
-      <style jsx>{`
-        .auth-form { display: flex; flex-direction: column; gap: 20px; }
-        .password-field-wrap { position: relative; }
-        .show-pw-btn {
-          position: absolute;
-          right: 14px;
-          top: 40px;
-          background: none;
-          border: none;
-          color: var(--on-surface-variant);
-          font-size: 13px;
-          font-weight: 500;
-          cursor: pointer;
-          font-family: var(--font-sans);
-          padding: 0;
-        }
-        .show-pw-btn:hover { color: var(--primary-accent); }
-        .form-meta { display: flex; justify-content: flex-end; margin-top: -8px; }
-        .forgot-link {
-          font-size: 13px;
-          color: var(--primary-accent);
-          text-decoration: none;
-          font-weight: 500;
-        }
-        .forgot-link:hover { text-decoration: underline; }
-        .auth-switch {
-          text-align: center;
-          font-size: 14px;
-          color: var(--on-surface-variant);
-        }
-        .auth-link {
-          color: var(--primary-accent);
-          font-weight: 600;
-          text-decoration: none;
-        }
-        .auth-link:hover { text-decoration: underline; }
-      `}</style>
     </AuthLayout>
   );
 }

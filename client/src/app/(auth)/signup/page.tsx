@@ -85,7 +85,7 @@ export default function SignupPage() {
       title="Create your account"
       subtitle="Join thousands of students on CampusHub."
     >
-      <form onSubmit={handleSubmit} noValidate className="auth-form">
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
         {serverError && <AlertBanner type="error" message={serverError} />}
 
         <GoogleLoginButton onCredential={handleGoogle} label="Sign up with Google" />
@@ -113,7 +113,7 @@ export default function SignupPage() {
           error={errors.email}
         />
 
-        <div className="password-field-wrap">
+        <div className="relative">
           <InputField
             id="signup-password"
             label="Password"
@@ -126,7 +126,7 @@ export default function SignupPage() {
           />
           <button
             type="button"
-            className="show-pw-btn"
+            className="absolute right-4 top-[38px] text-[12px] font-extrabold text-primary hover:text-primary/80 transition-colors uppercase tracking-wider"
             onClick={() => setShowPassword((v) => !v)}
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
@@ -135,17 +135,17 @@ export default function SignupPage() {
 
           {/* Password strength meter */}
           {form.password && (
-            <div className="strength-meter">
-              <div className="strength-bars">
+            <div className="flex items-center gap-3 mt-3 px-1">
+              <div className="flex gap-1.5 flex-1">
                 {[1, 2, 3, 4].map((i) => (
                   <div
                     key={i}
-                    className="strength-bar"
+                    className="flex-1 h-1 rounded-full transition-all duration-300"
                     style={{ background: i <= strength ? strengthColor : "var(--outline-variant)" }}
                   />
                 ))}
               </div>
-              <span className="strength-label" style={{ color: strengthColor }}>
+              <span className="text-[11px] font-extrabold uppercase tracking-widest min-w-[50px] text-right transition-colors duration-300" style={{ color: strengthColor }}>
                 {strengthLabel}
               </span>
             </div>
@@ -167,73 +167,19 @@ export default function SignupPage() {
           Create Account
         </PrimaryButton>
 
-        <p className="auth-switch">
+        <p className="text-center text-[14px] text-on-surface-variant font-medium">
           Already have an account?{" "}
-          <Link href="/login" className="auth-link">
+          <Link href="/login" className="text-primary font-bold hover:underline">
             Sign in
           </Link>
         </p>
 
-        <p className="auth-terms">
+        <p className="text-center text-[12px] text-on-surface-muted leading-relaxed opacity-60">
           By creating an account, you agree to our{" "}
-          <Link href="/terms" className="auth-link">Terms</Link> and{" "}
-          <Link href="/privacy" className="auth-link">Privacy Policy</Link>.
+          <Link href="/terms" className="text-primary font-bold hover:underline">Terms</Link> and{" "}
+          <Link href="/privacy" className="text-primary font-bold hover:underline">Privacy Policy</Link>.
         </p>
       </form>
-
-      <style jsx>{`
-        .auth-form { display: flex; flex-direction: column; gap: 20px; }
-        .password-field-wrap { position: relative; }
-        .show-pw-btn {
-          position: absolute;
-          right: 14px;
-          top: 40px;
-          background: none;
-          border: none;
-          color: var(--on-surface-variant);
-          font-size: 13px;
-          font-weight: 500;
-          cursor: pointer;
-          font-family: var(--font-sans);
-          padding: 0;
-        }
-        .show-pw-btn:hover { color: var(--primary-accent); }
-
-        .strength-meter {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-top: 8px;
-          padding: 0 2px;
-        }
-        .strength-bars { display: flex; gap: 5px; flex: 1; }
-        .strength-bar {
-          flex: 1;
-          height: 3px;
-          border-radius: 9999px;
-          transition: background 0.3s;
-        }
-        .strength-label {
-          font-size: 12px;
-          font-weight: 600;
-          min-width: 44px;
-          text-align: right;
-          transition: color 0.3s;
-        }
-
-        .auth-switch, .auth-terms {
-          text-align: center;
-          font-size: 14px;
-          color: var(--on-surface-variant);
-        }
-        .auth-terms { font-size: 12px; color: var(--outline); margin-top: -8px; }
-        .auth-link {
-          color: var(--primary-accent);
-          font-weight: 600;
-          text-decoration: none;
-        }
-        .auth-link:hover { text-decoration: underline; }
-      `}</style>
     </AuthLayout>
   );
 }

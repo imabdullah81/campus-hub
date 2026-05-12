@@ -73,139 +73,161 @@ export default function Marketplace() {
   };
 
   return (
-    <div className="marketplace-view animate-fade-in">
+    <div className="flex flex-col gap-8 animate-fade-in pb-12">
       {/* ── Page Header ── */}
-      <div className="page-header">
-        <div className="title-area">
-          <h1 className="text-3xl font-bold mb-2">Marketplace</h1>
-          <p className="text-muted text-sm">Discover and buy items from your fellow students.</p>
+      <div className="flex justify-between items-end gap-5 max-md:flex-col max-md:items-start">
+        <div className="flex flex-col">
+          <h1 className="text-3xl font-extrabold mb-2 text-white">Marketplace</h1>
+          <p className="text-on-surface-muted text-sm font-medium">Discover and buy items from your fellow students.</p>
         </div>
-        <div className="header-actions">
-          <Link href="/marketplace/my-listings" className="action-btn glass-panel">
-            <Package size={18} />
+        <div className="max-md:w-full">
+          <Link href="/marketplace/my-listings" className="flex items-center gap-2.5 px-5 py-3 rounded-md font-bold text-sm no-underline text-on-surface transition-all glass-panel hover:bg-white/5 hover:border-primary max-md:justify-center">
+            <Package size={18} className="text-primary" />
             <span>My Listings</span>
           </Link>
         </div>
       </div>
 
-      <div className="marketplace-layout">
+      <div className="flex gap-8 max-xl:flex-col">
         {/* ── Filters Sidebar ── */}
-        <aside className="filters-aside glass-panel">
-          <div className="section-title">
-            <Filter size={16} />
+        <aside className="w-[300px] h-fit rounded-xl p-6 flex flex-col gap-6 sticky top-24 z-10 glass-panel max-xl:w-full max-xl:static">
+          <div className="flex items-center gap-2.5 text-base font-extrabold text-white pb-3 border-b border-outline-subtle">
+            <Filter size={16} className="text-primary" />
             <span>Refine Search</span>
           </div>
 
-          <div className="filter-block">
-            <label>Keyword</label>
-            <div className="input-with-icon glass-panel">
-              <Search size={14} />
+          <div className="flex flex-col gap-3">
+            <label className="text-[11px] font-extrabold uppercase tracking-wider text-on-surface-muted">Keyword</label>
+            <div className="h-12 rounded-md flex items-center px-4 gap-3 bg-white/2 glass-panel group focus-within:border-primary/50 transition-colors">
+              <Search size={14} className="text-on-surface-muted group-focus-within:text-primary transition-colors" />
               <input 
                 type="text" 
                 placeholder="Search..." 
+                className="bg-transparent border-none outline-none text-white text-sm w-full placeholder:text-on-surface-muted/50" 
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               />
             </div>
           </div>
 
-          <div className="filter-block">
-            <label>Category</label>
-            <div className="chip-grid">
-              {categories.map(cat => (
-                <button 
-                  key={cat}
-                  className={`chip ${filters.category === cat ? "active" : ""}`}
-                  onClick={() => setFilters({ ...filters, category: filters.category === cat ? "" : cat })}
-                >
-                  {cat}
-                </button>
-              ))}
+          <div className="flex flex-col gap-3">
+            <label className="text-[11px] font-extrabold uppercase tracking-wider text-on-surface-muted">Category</label>
+            <div className="flex flex-wrap gap-2">
+              {categories.map(cat => {
+                const isActive = filters.category === cat;
+                return (
+                  <button 
+                    key={cat}
+                    className={`px-4 py-2 rounded-full text-[13px] font-bold cursor-pointer transition-all border
+                      ${isActive 
+                        ? "bg-primary/10 border-primary text-primary shadow-[0_0_15px_rgba(59,130,246,0.15)]" 
+                        : "bg-white/3 border-outline-subtle text-on-surface-variant hover:bg-white/8 hover:border-outline-variant hover:text-white"}`}
+                    onClick={() => setFilters({ ...filters, category: isActive ? "" : cat })}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          <div className="filter-block">
-            <label>Condition</label>
+          <div className="flex flex-col gap-3">
+            <label className="text-[11px] font-extrabold uppercase tracking-wider text-on-surface-muted">Condition</label>
             <select
-              className="glass-select"
+              className="h-12 bg-white/2 border border-outline-subtle rounded-md px-4 text-white text-sm outline-none w-full appearance-none cursor-pointer focus:border-primary/50 transition-colors"
               value={filters.condition}
               onChange={(e) => setFilters({ ...filters, condition: e.target.value })}
             >
-              <option value="">Any Condition</option>
-              {conditions.map(cond => <option key={cond} value={cond}>{cond}</option>)}
+              <option value="" className="bg-surface">Any Condition</option>
+              {conditions.map(cond => <option key={cond} value={cond} className="bg-surface">{cond}</option>)}
             </select>
           </div>
 
-          <div className="filter-block">
-            <label>Price Range</label>
-            <div className="range-inputs">
+          <div className="flex flex-col gap-3">
+            <label className="text-[11px] font-extrabold uppercase tracking-wider text-on-surface-muted">Price Range</label>
+            <div className="flex items-center gap-3">
               <input
                 type="number"
                 placeholder="Min"
-                className="glass-input"
+                className="h-12 bg-white/2 border border-outline-subtle rounded-md px-4 text-white text-sm outline-none w-full placeholder:text-on-surface-muted/50 focus:border-primary/50 transition-colors"
                 value={filters.minPrice}
                 onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
               />
-              <span className="divider">—</span>
+              <span className="text-on-surface-muted font-bold">—</span>
               <input
                 type="number"
                 placeholder="Max"
-                className="glass-input"
+                className="h-12 bg-white/2 border border-outline-subtle rounded-md px-4 text-white text-sm outline-none w-full placeholder:text-on-surface-muted/50 focus:border-primary/50 transition-colors"
                 value={filters.maxPrice}
                 onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
               />
             </div>
           </div>
 
-          <button className="reset-btn" onClick={resetFilters}>
+          <button 
+            className="flex items-center justify-center gap-2 p-3.5 rounded-md bg-transparent border border-outline-subtle text-on-surface-muted text-[13px] font-bold cursor-pointer transition-all mt-2 hover:bg-error/5 hover:text-error hover:border-error/20" 
+            onClick={resetFilters}
+          >
             <RotateCcw size={14} />
             <span>Reset Filters</span>
           </button>
         </aside>
 
         {/* ── Results Area ── */}
-        <div className="results-area">
+        <div className="flex-1 min-w-0">
           {loading ? (
-            <div className="status-message">
-              <div className="spinner" />
-              <p>Scanning the campus for listings...</p>
+            <div className="h-[400px] flex flex-col items-center justify-center text-center gap-4">
+              <div className="w-10 h-10 border-3 border-outline-subtle border-t-primary rounded-full animate-spin" />
+              <p className="text-on-surface-muted font-medium">Scanning the campus for listings...</p>
             </div>
           ) : listings.length > 0 ? (
-            <div className="listings-grid">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
               {listings.map((listing) => (
-                <div key={listing._id} className="listing-card-v2 glass-card">
-                  <div className="card-thumb">
+                <div key={listing._id} className="group flex flex-col overflow-hidden transition-all duration-400 glass-card hover:-translate-y-2 hover:border-primary/50 hover:shadow-2xl hover:shadow-black/40">
+                  <div className="h-[220px] relative bg-surface-bright/50 overflow-hidden">
                     {listing.images[0] ? (
-                      <img src={listing.images[0].url} alt={listing.title} />
+                      <img 
+                        src={listing.images[0].url} 
+                        alt={listing.title} 
+                        className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-110"
+                      />
                     ) : (
-                      <div className="no-image"><Package size={40} /></div>
+                      <div className="w-full h-full flex items-center justify-center bg-surface-bright text-on-surface-muted/20">
+                        <Package size={60} />
+                      </div>
                     )}
-                    <div className="card-badge">{listing.category}</div>
+                    <div className="absolute top-4 left-4 px-3.5 py-1.5 bg-surface/80 backdrop-blur-md rounded-full text-[11px] font-extrabold text-primary border border-primary/30 z-10">
+                      {listing.category}
+                    </div>
                   </div>
                   
-                  <div className="card-body">
-                    <div className="card-top">
-                      <h3 className="card-title">{listing.title}</h3>
-                      <div className="card-price">${listing.price}</div>
+                  <div className="p-6 flex-1 flex flex-col gap-4">
+                    <div className="flex justify-between items-start gap-3">
+                      <h3 className="text-lg font-extrabold text-white leading-tight flex-1 group-hover:text-primary transition-colors line-clamp-2">
+                        {listing.title}
+                      </h3>
+                      <div className="text-xl font-black text-secondary">
+                        ${listing.price}
+                      </div>
                     </div>
                     
-                    <div className="card-meta">
-                      <div className="meta-item">
-                        <MapPin size={12} />
+                    <div className="flex flex-wrap gap-4">
+                      <div className="flex items-center gap-2 text-[13px] text-on-surface-muted font-medium">
+                        <MapPin size={14} className="text-primary/60" />
                         <span>{listing.location || "Main Campus"}</span>
                       </div>
-                      <div className="meta-item">
-                        <Tag size={12} />
+                      <div className="flex items-center gap-2 text-[13px] text-on-surface-muted font-medium">
+                        <Tag size={14} className="text-secondary/60" />
                         <span>{listing.condition}</span>
                       </div>
                     </div>
 
-                    <div className="card-actions">
-                      <div className="views-count">
-                        <Eye size={12} />
+                    <div className="mt-auto flex justify-between items-center pt-4 border-t border-outline-subtle">
+                      <div className="flex items-center gap-2 text-[12px] text-on-surface-muted font-semibold">
+                        <Eye size={14} className="opacity-60" />
                         <span>{listing.views} views</span>
                       </div>
-                      <Link href={`/marketplace/${listing._id}`} className="view-link">
+                      <Link href={`/marketplace/${listing._id}`} className="flex items-center gap-2 text-sm font-extrabold text-primary no-underline transition-all hover:translate-x-1">
                         <span>Details</span>
                         <ArrowRight size={14} />
                       </Link>
@@ -215,346 +237,22 @@ export default function Marketplace() {
               ))}
             </div>
           ) : (
-            <div className="status-message">
-              <Layers size={48} className="mb-4 opacity-20" />
-              <p className="text-lg font-medium">No listings found</p>
-              <p className="text-muted text-sm">Try adjusting your filters or search keywords.</p>
-              <button className="mt-4 text-primary text-sm font-semibold" onClick={resetFilters}>Clear all filters</button>
+            <div className="h-[400px] flex flex-col items-center justify-center text-center gap-4 py-20">
+              <Layers size={64} className="mb-4 opacity-10 text-on-surface-muted" />
+              <p className="text-xl font-extrabold text-white">No listings found</p>
+              <p className="text-on-surface-muted text-sm max-w-xs mx-auto">
+                Try adjusting your filters or search keywords to find what you're looking for.
+              </p>
+              <button 
+                className="mt-4 px-6 py-2 rounded-full border border-primary/30 text-primary text-sm font-bold transition-all hover:bg-primary/10" 
+                onClick={resetFilters}
+              >
+                Clear all filters
+              </button>
             </div>
           )}
         </div>
       </div>
-
-      <style jsx>{`
-        .marketplace-view {
-          display: flex;
-          flex-direction: column;
-          gap: 32px;
-        }
-
-        .page-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          gap: 20px;
-        }
-
-        .text-muted { color: var(--on-surface-muted); }
-
-        .action-btn {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 12px 20px;
-          border-radius: var(--radius-md);
-          font-weight: 700;
-          font-size: 14px;
-          text-decoration: none;
-          color: var(--on-surface);
-          transition: all 0.2s;
-        }
-
-        .action-btn:hover {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: var(--primary);
-        }
-
-        .marketplace-layout {
-          display: flex;
-          gap: 32px;
-        }
-
-        .filters-aside {
-          width: 300px;
-          height: fit-content;
-          border-radius: var(--radius-xl);
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-          position: sticky;
-          top: 104px;
-          z-index: 10;
-        }
-
-        .section-title {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-size: 16px;
-          font-weight: 800;
-          color: white;
-          padding-bottom: 12px;
-          border-bottom: 1px solid var(--outline-subtle);
-        }
-
-        .filter-block {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .filter-block label {
-          font-size: 11px;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: var(--on-surface-muted);
-        }
-
-        .input-with-icon {
-          height: 48px;
-          border-radius: var(--radius-md);
-          display: flex;
-          align-items: center;
-          padding: 0 16px;
-          gap: 12px;
-          background: rgba(255, 255, 255, 0.02);
-        }
-
-        .input-with-icon input {
-          background: none;
-          border: none;
-          outline: none;
-          color: white;
-          font-size: 14px;
-          width: 100%;
-        }
-
-        .chip-grid {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        .chip {
-          padding: 8px 16px;
-          border-radius: var(--radius-full);
-          font-size: 13px;
-          font-weight: 600;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid var(--outline-subtle);
-          color: var(--on-surface-variant);
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .chip:hover { 
-          background: rgba(255, 255, 255, 0.08);
-          border-color: var(--outline-variant);
-        }
-
-        .chip.active {
-          background: rgba(59, 130, 246, 0.1);
-          border-color: var(--primary);
-          color: var(--primary);
-          box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
-        }
-
-        .glass-select, .glass-input {
-          height: 48px;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid var(--outline-subtle);
-          border-radius: var(--radius-md);
-          padding: 0 16px;
-          color: white;
-          font-size: 14px;
-          outline: none;
-          width: 100%;
-        }
-
-        .range-inputs {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .divider { color: var(--on-surface-muted); font-weight: 700; }
-
-        .reset-btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          padding: 14px;
-          border-radius: var(--radius-md);
-          background: none;
-          border: 1px solid var(--outline-subtle);
-          color: var(--on-surface-muted);
-          font-size: 13px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.2s;
-          margin-top: 8px;
-        }
-
-        .reset-btn:hover {
-          background: rgba(255, 180, 171, 0.05);
-          color: var(--error);
-          border-color: rgba(255, 180, 171, 0.2);
-        }
-
-        .results-area { flex: 1; }
-
-        .listings-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 24px;
-        }
-
-        .listing-card-v2 {
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .listing-card-v2:hover {
-          transform: translateY(-8px);
-          border-color: var(--primary-glow);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .card-thumb {
-          height: 220px;
-          position: relative;
-          background: var(--surface-container-highest);
-          overflow: hidden;
-        }
-
-        .card-thumb img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.6s ease;
-        }
-
-        .listing-card-v2:hover .card-thumb img {
-          transform: scale(1.1);
-        }
-
-        .card-badge {
-          position: absolute;
-          top: 16px;
-          left: 16px;
-          padding: 6px 14px;
-          background: rgba(11, 15, 25, 0.8);
-          backdrop-filter: blur(8px);
-          border-radius: var(--radius-full);
-          font-size: 11px;
-          font-weight: 800;
-          color: var(--primary);
-          border: 1px solid var(--primary-glow);
-          z-index: 2;
-        }
-
-        .card-body {
-          padding: 24px;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
-        .card-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 12px;
-        }
-
-        .card-title {
-          font-size: 18px;
-          font-weight: 800;
-          color: white;
-          line-height: 1.3;
-          flex: 1;
-        }
-
-        .card-price {
-          font-size: 20px;
-          font-weight: 900;
-          color: var(--secondary);
-          text-shadow: 0 0 20px var(--secondary-glow);
-        }
-
-        .card-meta {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 16px;
-        }
-
-        .meta-item {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 13px;
-          color: var(--on-surface-muted);
-          font-weight: 500;
-        }
-
-        .card-actions {
-          margin-top: auto;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding-top: 16px;
-          border-top: 1px solid var(--outline-subtle);
-        }
-
-        .views-count {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 12px;
-          color: var(--on-surface-muted);
-          font-weight: 600;
-        }
-
-        .view-link {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 14px;
-          font-weight: 800;
-          color: var(--primary);
-          text-decoration: none;
-          transition: all 0.2s;
-        }
-
-        .view-link:hover { transform: translateX(4px); }
-
-        .status-message {
-          height: 400px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          gap: 16px;
-        }
-
-        .spinner {
-          width: 40px;
-          height: 40px;
-          border: 3px solid var(--outline-subtle);
-          border-top-color: var(--primary);
-          border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-        }
-
-        @media (max-width: 1200px) {
-          .marketplace-layout { flex-direction: column; }
-          .filters-aside { width: 100%; position: static; }
-        }
-
-        @media (max-width: 768px) {
-          .page-header { flex-direction: column; align-items: flex-start; }
-          .header-actions { width: 100%; }
-          .action-btn { justify-content: center; width: 100%; }
-          .listings-grid { grid-template-columns: 1fr; }
-        }
-      `}</style>
     </div>
   );
 }

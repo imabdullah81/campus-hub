@@ -25,21 +25,14 @@ function ResetPasswordForm() {
   // ── Token missing guard ───────────────────────────────────────────────────
   if (!token) {
     return (
-      <div className="invalid-state">
+      <div className="flex flex-col gap-6 text-center animate-fade-in">
         <AlertBanner
           type="error"
           message="This reset link is invalid or has expired. Please request a new one."
         />
-        <Link href="/forgot-password" className="back-link">
+        <Link href="/forgot-password" className="inline-block text-[14px] text-primary font-bold hover:underline">
           Request new reset link
         </Link>
-        <style jsx>{`
-          .invalid-state { display: flex; flex-direction: column; gap: 20px; }
-          .back-link {
-            display: block; text-align: center; font-size: 14px;
-            color: var(--primary-accent); text-decoration: none; font-weight: 600;
-          }
-        `}</style>
       </div>
     );
   }
@@ -83,10 +76,10 @@ function ResetPasswordForm() {
   const strengthLabel = ["", "Weak", "Fair", "Good", "Strong"][strength];
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="auth-form">
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6 animate-fade-in">
       {serverError && <AlertBanner type="error" message={serverError} />}
 
-      <div className="password-field-wrap">
+      <div className="relative">
         <InputField
           id="reset-password"
           label="New password"
@@ -99,7 +92,7 @@ function ResetPasswordForm() {
         />
         <button
           type="button"
-          className="show-pw-btn"
+          className="absolute right-4 top-[38px] text-[12px] font-extrabold text-primary hover:text-primary/80 transition-colors uppercase tracking-wider"
           onClick={() => setShowPassword((v) => !v)}
           aria-label={showPassword ? "Hide password" : "Show password"}
         >
@@ -107,17 +100,19 @@ function ResetPasswordForm() {
         </button>
 
         {form.password && (
-          <div className="strength-meter">
-            <div className="strength-bars">
+          <div className="flex items-center gap-3 mt-3 px-1">
+            <div className="flex gap-1.5 flex-1">
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="strength-bar"
+                  className="flex-1 h-1 rounded-full transition-all duration-300"
                   style={{ background: i <= strength ? strengthColor : "var(--outline-variant)" }}
                 />
               ))}
             </div>
-            <span className="strength-label" style={{ color: strengthColor }}>{strengthLabel}</span>
+            <span className="text-[11px] font-extrabold uppercase tracking-widest min-w-[50px] text-right transition-colors duration-300" style={{ color: strengthColor }}>
+              {strengthLabel}
+            </span>
           </div>
         )}
       </div>
@@ -137,27 +132,9 @@ function ResetPasswordForm() {
         Set New Password
       </PrimaryButton>
 
-      <Link href="/login" className="back-link">← Back to Sign In</Link>
-
-      <style jsx>{`
-        .auth-form { display: flex; flex-direction: column; gap: 20px; }
-        .password-field-wrap { position: relative; }
-        .show-pw-btn {
-          position: absolute; right: 14px; top: 40px;
-          background: none; border: none; color: var(--on-surface-variant);
-          font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font-sans); padding: 0;
-        }
-        .show-pw-btn:hover { color: var(--primary-accent); }
-        .strength-meter { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-        .strength-bars { display: flex; gap: 5px; flex: 1; }
-        .strength-bar { flex: 1; height: 3px; border-radius: 9999px; transition: background 0.3s; }
-        .strength-label { font-size: 12px; font-weight: 600; min-width: 44px; text-align: right; }
-        .back-link {
-          display: block; text-align: center; font-size: 14px;
-          color: var(--on-surface-variant); text-decoration: none; font-weight: 500;
-        }
-        .back-link:hover { color: var(--primary-accent); }
-      `}</style>
+      <Link href="/login" className="text-center text-[14px] text-on-surface-variant font-medium hover:text-primary transition-colors">
+        ← Back to Sign In
+      </Link>
     </form>
   );
 }

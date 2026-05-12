@@ -17,37 +17,24 @@ export function GoogleLoginButton({ onCredential }: GoogleLoginButtonProps) {
   const [error, setError] = useState<string | null>(null);
 
   return (
-    <div className="google-btn-container">
-      <GoogleLogin
-        onSuccess={(credentialResponse) => {
-          if (credentialResponse.credential) {
-            onCredential(credentialResponse.credential);
-          }
-        }}
-        onError={() => {
-          setError("Google sign-in failed. Please try again.");
-        }}
-        theme="filled_black"
-        shape="pill"
-        width="400"
-        text="continue_with"
-      />
-      {error && <p className="google-error">{error}</p>}
-
-      <style jsx>{`
-        .google-btn-container {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-        }
-        .google-error {
-          font-size: 12px;
-          color: var(--error);
-          font-weight: 500;
-        }
-      `}</style>
+    <div className="w-full flex flex-col items-center gap-2">
+      <div className="w-full flex justify-center">
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            if (credentialResponse.credential) {
+              onCredential(credentialResponse.credential);
+            }
+          }}
+          onError={() => {
+            setError("Google sign-in failed. Please try again.");
+          }}
+          theme="filled_black"
+          shape="rectangular"
+          width="480"
+          text="continue_with"
+        />
+      </div>
+      {error && <p className="text-[12px] text-error font-bold">{error}</p>}
     </div>
   );
 }
