@@ -3,11 +3,11 @@
 import { useState } from "react";
 import axios from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import { 
-  ArrowLeft, 
-  Upload, 
-  X, 
-  Info, 
+import {
+  ArrowLeft,
+  Upload,
+  X,
+  Info,
   DollarSign,
   MapPin,
   CheckCircle2,
@@ -23,7 +23,7 @@ export default function SellPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [images, setImages] = useState<{ url: string; public_id: string }[]>([]);
-  
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -43,7 +43,7 @@ export default function SellPage() {
     setLoading(true);
     try {
       const { data: signData } = await axios.get("/upload/sign");
-      
+
       const uploadPromises = Array.from(files).map(async (file) => {
         const uploadData = new FormData();
         uploadData.append("file", file);
@@ -57,7 +57,7 @@ export default function SellPage() {
           method: "POST",
           body: uploadData,
         });
-        
+
         const cloudRes = await res.json();
         return {
           url: cloudRes.secure_url,
@@ -107,8 +107,8 @@ export default function SellPage() {
         </Link>
       </div>
 
-      <DashboardHeader 
-        title="Post a New" 
+      <DashboardHeader
+        title="Post a New"
         gradientTitle="Listing"
         subtitle="Turn your unused items into cash. Reach thousands of students on campus."
       />
@@ -121,13 +121,13 @@ export default function SellPage() {
               <div className="flex flex-col gap-3">
                 <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">What are you selling?</label>
                 <div className="bg-white/5 border border-outline-variant rounded-md focus-within:border-primary/50 transition-all">
-                  <input 
-                    type="text" 
-                    required 
+                  <input
+                    type="text"
+                    required
                     placeholder="e.g. Mechanical Engineering Textbooks"
                     className="w-full p-4 bg-transparent border-none outline-none text-white text-base placeholder:text-on-surface-muted/30"
                     value={formData.title}
-                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   />
                 </div>
               </div>
@@ -135,13 +135,13 @@ export default function SellPage() {
               <div className="flex flex-col gap-3">
                 <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Description</label>
                 <div className="bg-white/5 border border-outline-variant rounded-md focus-within:border-primary/50 transition-all">
-                  <textarea 
-                    required 
+                  <textarea
+                    required
                     placeholder="Tell buyers about the condition, age, and features..."
                     rows={6}
                     className="w-full p-4 bg-transparent border-none outline-none text-white text-base resize-none placeholder:text-on-surface-muted/30"
                     value={formData.description}
-                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   />
                 </div>
               </div>
@@ -149,20 +149,20 @@ export default function SellPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-3">
                   <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Category</label>
-                  <select 
+                  <select
                     className="h-14 bg-surface-bright/50 border border-outline-variant rounded-md px-4 text-white text-base outline-none appearance-none cursor-pointer focus:border-primary/50 transition-all"
                     value={formData.category}
-                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   >
                     {categories.map(c => <option key={c} value={c} className="bg-surface">{c}</option>)}
                   </select>
                 </div>
                 <div className="flex flex-col gap-3">
                   <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Condition</label>
-                  <select 
+                  <select
                     className="h-14 bg-surface-bright/50 border border-outline-variant rounded-md px-4 text-white text-base outline-none appearance-none cursor-pointer focus:border-primary/50 transition-all"
                     value={formData.condition}
-                    onChange={(e) => setFormData({...formData, condition: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
                   >
                     {conditions.map(c => <option key={c} value={c} className="bg-surface">{c}</option>)}
                   </select>
@@ -174,13 +174,13 @@ export default function SellPage() {
                   <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Price</label>
                   <div className="flex items-center gap-3 bg-white/5 border border-outline-variant rounded-md px-4 focus-within:border-primary/50 transition-all">
                     <DollarSign size={18} className="text-on-surface-muted" />
-                    <input 
-                      type="number" 
-                      required 
+                    <input
+                      type="number"
+                      required
                       placeholder="0.00"
                       className="w-full py-4 bg-transparent border-none outline-none text-white text-base placeholder:text-on-surface-muted/30"
                       value={formData.price}
-                      onChange={(e) => setFormData({...formData, price: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     />
                   </div>
                 </div>
@@ -188,12 +188,12 @@ export default function SellPage() {
                   <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Pickup Location</label>
                   <div className="flex items-center gap-3 bg-white/5 border border-outline-variant rounded-md px-4 focus-within:border-primary/50 transition-all">
                     <MapPin size={18} className="text-on-surface-muted" />
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="e.g. Hall 3 Lounge"
                       className="w-full py-4 bg-transparent border-none outline-none text-white text-base placeholder:text-on-surface-muted/30"
                       value={formData.location}
-                      onChange={(e) => setFormData({...formData, location: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     />
                   </div>
                 </div>
@@ -206,10 +206,10 @@ export default function SellPage() {
                 <label className="text-[13px] font-extrabold uppercase tracking-widest text-on-surface-muted ml-1">Item Media</label>
                 <div className="flex flex-col gap-4">
                   <div className="relative group min-h-[200px] border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center gap-4 transition-all hover:border-primary hover:bg-primary/5">
-                    <input 
-                      type="file" 
-                      multiple 
-                      accept="image/*" 
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
                       className="absolute inset-0 opacity-0 cursor-pointer z-10"
                       onChange={handleImageUpload}
                       disabled={loading}
@@ -227,8 +227,8 @@ export default function SellPage() {
                     {images.map((img, i) => (
                       <div key={i} className="aspect-square rounded-md overflow-hidden relative group border border-outline-variant">
                         <img src={img.url} alt="Preview" className="w-full h-full object-cover" />
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity border border-white/10"
                           onClick={() => setImages(images.filter((_, idx) => idx !== i))}
                         >
@@ -252,7 +252,7 @@ export default function SellPage() {
                 </div>
               </div>
 
-              <div className="mt-auto p-6 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 flex gap-4 items-center">
+              <div className="mt-auto p-6 rounded-xl bg-linear-to-br from-primary/10 to-secondary/10 border border-primary/20 flex gap-4 items-center">
                 <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-primary shrink-0">
                   <CheckCircle2 size={24} />
                 </div>

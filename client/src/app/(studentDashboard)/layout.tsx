@@ -4,14 +4,14 @@ import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { 
-  Home, 
-  ShoppingBag, 
-  Briefcase, 
-  MessageSquare, 
-  Heart, 
-  User, 
-  LogOut, 
+import {
+  Home,
+  ShoppingBag,
+  Briefcase,
+  MessageSquare,
+  Heart,
+  User,
+  LogOut,
   Search,
   Menu,
   X,
@@ -54,17 +54,17 @@ export default function StudentDashboardLayout({
       <div className="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[120px] opacity-5 pointer-events-none -z-10 bg-secondary" />
 
       {/* ── Top Navigation ── */}
-      <header className="sticky top-0 z-[1000] h-[72px] border-b border-outline-variant px-4 lg:px-10 flex items-center bg-surface/80 backdrop-blur-2xl glass-panel">
+      <header className="sticky top-0 z-1000 h-[72px] border-b border-outline-variant px-4 lg:px-10 flex items-center bg-surface/80 backdrop-blur-2xl glass-panel">
         <div className="w-full max-w-[1600px] mx-auto flex justify-between items-center gap-4 lg:gap-10">
           <div className="flex items-center gap-3 md:gap-5">
-            <button 
+            <button
               className="lg:hidden w-10 h-10 rounded-md flex items-center justify-center cursor-pointer text-on-surface bg-white/5 border border-outline-subtle glass-panel"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               aria-label="Toggle Menu"
             >
               {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
-            
+
             <Link href="/dashboard" className="flex items-center gap-3 no-underline group">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl overflow-hidden glass-panel flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform shadow-lg border border-white/10">
                 <img src="/logo.png" alt="CampusHub" className="w-full h-full object-cover" />
@@ -75,20 +75,20 @@ export default function StudentDashboardLayout({
 
           <div className="hidden xl:flex flex-1 max-w-[400px] h-10 rounded-full px-4 items-center gap-3 bg-white/5 border border-outline-subtle glass-panel focus-within:border-primary/50 transition-all">
             <Search className="text-on-surface-muted" size={16} />
-            <input 
-              type="text" 
-              placeholder="Search items, services..." 
-              className="bg-transparent border-none text-white w-full outline-none text-xs placeholder:text-on-surface-muted/50" 
+            <input
+              type="text"
+              placeholder="Search items, services..."
+              className="bg-transparent border-none text-white w-full outline-none text-xs placeholder:text-on-surface-muted/50"
             />
           </div>
-          
+
           <div className="flex items-center gap-2 md:gap-4">
             <Link href="/marketplace/sell">
               <DashboardButton variant="gradient" size="sm" icon={Plus} className="px-3 md:px-5">
                 <span className="hidden sm:inline">Sell Item</span>
               </DashboardButton>
             </Link>
-            
+
             <button className="w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center text-on-surface-variant cursor-pointer transition-all shrink-0 relative glass-panel hover:bg-white/10">
               <Bell size={18} className="md:hidden" />
               <Bell size={20} className="hidden md:block" />
@@ -130,9 +130,9 @@ export default function StudentDashboardLayout({
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
-                  
+
                   return (
-                    <Link 
+                    <Link
                       key={item.href}
                       href={item.href}
                       className={`
@@ -154,9 +154,9 @@ export default function StudentDashboardLayout({
                     </Link>
                   );
                 })}
-                
+
                 <div className="h-px bg-outline-subtle my-4 mx-4 opacity-50" />
-                
+
                 <Link href="/marketplace?trending=true" className="group flex flex-row items-center gap-4 px-5 py-3 rounded-md text-on-surface-variant no-underline relative transition-all duration-200 hover:bg-white/5 hover:text-white hover:translate-x-1 border border-transparent">
                   <div className="flex items-center justify-center w-6 h-6 shrink-0 text-on-surface-muted group-hover:text-white"><TrendingUp size={20} /></div>
                   <span className="text-sm font-semibold flex-1">Trending</span>
@@ -190,9 +190,9 @@ export default function StudentDashboardLayout({
 
         {/* Overlay for mobile */}
         {isSidebarOpen && (
-          <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-1050 lg:hidden animate-fade-in" 
-            onClick={() => setIsSidebarOpen(false)} 
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-1050 lg:hidden animate-fade-in"
+            onClick={() => setIsSidebarOpen(false)}
           />
         )}
 
