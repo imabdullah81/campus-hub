@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
   Home,
@@ -29,14 +29,32 @@ export default function StudentDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, logout } = useAuth();
+  const { user, logout, isLoading } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // ── Auth Guard ──
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/login");
+    }
+  }, [user, isLoading, router]);
 
   // Close sidebar on route change (mobile)
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [pathname]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-surface flex items-center justify-center">
+        <div className="w-10 h-10 border-3 border-outline-subtle border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) return null;
 
   const navItems = [
     { name: "Home", href: "/dashboard", icon: Home },

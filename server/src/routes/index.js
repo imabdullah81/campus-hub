@@ -3,11 +3,13 @@ const router = express.Router();
 
 const authRoutes = require("./auth.routes");
 const listingRoutes = require("./listing.routes");
+const serviceRoutes = require("./service.routes");
 const uploadRoutes = require("./upload.routes");
 
 // ─── Mount sub-routers ────────────────────────────────────────────────────────
 router.use("/auth", authRoutes);
 router.use("/listings", listingRoutes);
+router.use("/services", serviceRoutes);
 router.use("/upload", uploadRoutes);
 
 // ─── Health check ─────────────────────────────────────────────────────────────

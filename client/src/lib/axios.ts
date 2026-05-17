@@ -18,6 +18,13 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // If we get a 401, it means the session is invalid/expired
+    if (error.response?.status === 401) {
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+    }
+
     const message =
       error.response?.data?.message ||
       error.message ||

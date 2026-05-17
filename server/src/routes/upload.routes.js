@@ -10,7 +10,8 @@ const { protect } = require("../middleware/auth.middleware");
  */
 router.get("/sign", protect, (req, res) => {
   try {
-    const signatureData = generateUploadSignature('listings');
+    const folder = req.query.folder || 'listings';
+    const signatureData = generateUploadSignature(folder);
     res.status(200).json({
       success: true,
       ...signatureData,
